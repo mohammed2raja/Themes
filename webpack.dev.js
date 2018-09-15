@@ -11,6 +11,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: "babel-loader",
                     options: { presets: ["es2015"] }
@@ -26,6 +27,17 @@ module.exports = merge(common, {
                         loader: "css-loader", // translates CSS into CommonJS
                         options: {
                             sourceMap: true
+                        }
+                    }, {
+                        // Loader for webpack to process CSS with PostCSS
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: function () {
+                                return [
+                                    require('precss'),
+                                    require('autoprefixer')
+                                ];
+                            }
                         }
                     },
                     {
